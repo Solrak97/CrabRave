@@ -1,65 +1,62 @@
-#[derive(PartialEq, Debug)]
+#[derive(Debug)]
 pub struct Tuple {
     x: f64,
     y: f64,
     z: f64,
-    w: u8,
+    w: f64,
 }
 
-impl Tuple {
-    pub fn new(x: f64, y: f64, z: f64, w: u8) -> Self {
-        Tuple {
-            x: x,
-            y: y,
-            z: z,
-            w: w,
-        }
-    }
-
-    pub fn is_point(&self) -> bool {
-        self.w == 0
-    }
-
-    pub fn is_vector(&self) -> bool {
-        self.w == 1
+pub fn tuple(x: f64, y: f64, z: f64, w: f64) -> Tuple {
+    Tuple {
+        x: x,
+        y: y,
+        z: z,
+        w: w,
     }
 }
 
-#[derive(PartialEq, Debug)]
-pub struct Point {
-    tuple: Tuple,
+pub fn vector(x: f64, y: f64, z: f64) -> Tuple {
+    tuple(x, y, z, 0.0)
 }
 
-impl Point {
-    pub fn new(x: f64, y: f64, z: f64) -> Self {
-        Point {
-            tuple: Tuple {
-                x: x,
-                y: y,
-                z: z,
-                w: 1,
-            },
-        }
-    }
+pub fn point(x: f64, y: f64, z: f64) -> Tuple {
+    tuple(x, y, z, 1.0)
 }
 
-#[derive(PartialEq, Debug)]
-pub struct Vector {
-    pub tuple: Tuple,
+pub fn is_point(t: &Tuple) -> bool {
+    t.w == 0.0
 }
 
-impl Vector {
-    pub fn new(x: f64, y: f64, z: f64) -> Self {
-        Vector {
-            tuple: Tuple {
-                x: x,
-                y: y,
-                z: z,
-                w: 0,
-            },
-        }
-    }
+pub fn is_vector(t: &Tuple) -> bool {
+    t.w == 1.0
 }
+
+pub fn add_tuple(t1: &Tuple, t2: &Tuple) -> Tuple {
+    tuple(t1.x + t2.x, t1.y + t2.y, t1.z + t2.z, t1.w + t2.w)
+}
+
+pub fn sub_tuple(t1: &Tuple, t2: &Tuple) -> Tuple {
+    tuple(t1.x - t2.x, t1.y - t2.y, t1.z - t2.z, t1.w - t2.w)
+}
+
+pub fn neg_tuple(t: &Tuple) -> Tuple {
+    let _t = tuple(0.0,0.0,0.0,0.0);
+    sub_tuple(&_t, t)
+}
+
+pub fn mul_tuple(t: &Tuple, s:f64) -> Tuple{
+    tuple(t.x * s, t.y * s, t.z * s, t.w * s)
+}
+
+pub fn div_tuple(t: &Tuple, s: f64) -> Tuple {
+    mul_tuple(t, 1.0/s)
+}
+
+pub fn magnitude(t: Tuple) -> f64{
+    (t.x.powi(2) + t.y.powi(2) + t.z.powi(2) + t.w.powi(2)).sqrt()
+}
+
+
 
 /*                                     UNITESTS                                        */
 #[cfg(test)]
