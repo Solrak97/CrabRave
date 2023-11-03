@@ -1,18 +1,27 @@
 mod tuple;
+pub mod primitive;
+mod Primitive;
 use tuple::*;
+
+mod colors;
+use colors::*;
+
+
 
 fn main() {
     let mut projectile: Projectile = Projectile {
         position: point(0.0, 1.0, 0.0),
-        velocity: vector_normalize(&vector(1.0, 1.0, 0.0)),
+        velocity: scale_tuple(&vector_normalize(&vector(1.0, 1.0, 0.0)), 5.0),
     };
 
     let env: Environment = Environment { wind: vector(0.0, -0.1, 0.0), gravity: vector(-0.01, 0.0, 0.0) };
 
-    for n in 0..1000 {
+    let mut count = 0;
+    while !floored(&projectile.position){
+        count += 1;
         projectile = tick(&env, &projectile);
-        println!("{:?}", projectile.position);
     }
+    println!("{:?}", count)
 }
 
 struct Projectile {

@@ -15,6 +15,12 @@ pub fn tuple(x: f64, y: f64, z: f64, w: f64) -> Tuple {
     }
 }
 
+/*     Testfunc     */
+
+pub fn floored (t: &Tuple) -> bool {
+    t.y <= 0.0
+}
+
 pub fn vector(x: f64, y: f64, z: f64) -> Tuple {
     tuple(x, y, z, 0.0)
 }
