@@ -1,8 +1,8 @@
 mod primitive;
 use primitive::{ point::Point, vector::Vector, tuple::Tuple };
 
-//mod colors;
-//use colors::*;
+mod color;
+use color::*;
 
 fn main() {
     let mut projectile: Projectile = Projectile {

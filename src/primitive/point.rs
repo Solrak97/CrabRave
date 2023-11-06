@@ -61,11 +61,11 @@ impl std::ops::Add<Point> for Vector {
 }
 
 // Point - Vector
-impl std::ops::Sub<Point> for Vector {
+impl std::ops::Sub<Vector> for Point {
     type Output = Vector;
 
-    fn sub(self, rhs: Point) -> Vector {
-        Vector::new(self.x() - rhs.x, self.y() - rhs.y, self.z() - rhs.z)
+    fn sub(self, rhs: Vector) -> Vector {
+        Vector::new(self.x() - rhs.x(), self.y() - rhs.y(), self.z() - rhs.z())
     }
 }
 
@@ -94,5 +94,71 @@ impl std::ops::Div<f64> for Point {
 
     fn div(self, rhs: f64) -> Point {
         self * (1.0 / rhs)
+    }
+}
+
+
+
+
+
+
+#[cfg(test)]
+mod tests {
+    use crate::primitive::{ point::Point, tuple::Tuple, vector::Vector };
+    #[test]
+    fn is_point() {
+        let p = Point::new(-0.5, 0.4, 1.7);
+        assert!(p.x == -0.5 && p.y == 0.4 && p.z == 1.7);
+    }
+
+    #[test]
+    fn _neg_point() {
+        let p = Point::new(3.0, -2.0, 5.0);
+        assert_eq!(Point::new(-3.0, 2.0, -5.0), -p)
+    }
+
+    #[test]
+    fn _add_point_vector() {
+        let p = Point::new(3.0, -2.0, 5.0);
+        let v = Vector::new(-2.0, 3.0, 1.0);
+        assert_eq!(Point::new(1.0, 1.0, 6.0), v + p)
+    }
+
+    #[test]
+    fn _add_vector_point() {
+        let p = Point::new(3.0, -2.0, 5.0);
+        let v = Vector::new(-2.0, 3.0, 1.0);
+        assert_eq!(Point::new(1.0, 1.0, 6.0), p + v)
+    }
+
+    #[test]
+    fn _sub_point_vector() {
+        let p = Point::new(3.0, -2.0, 5.0);
+        let v = Vector::new(-2.0, 3.0, 1.0);
+        assert_eq!(Vector::new(5.0, -5.0, 4.0), p - v)
+    }
+
+    #[test]
+    fn _point_mul_scalar() {
+        let p = Point::new(1.0, 2.0, 3.0);
+        let s = 3.0;
+
+        assert_eq!(Point::new(3.0, 6.0, 9.0), p * s)
+    }
+
+    #[test]
+    fn _scalar_mul_point() {
+        let p = Point::new(1.0, 2.0, 3.0);
+        let s = 3.0;
+
+        assert_eq!(Point::new(3.0, 6.0, 9.0), s * p)
+    }
+
+    #[test]
+    fn _point_div_scalar() {
+        let p = Vector::new(3.0, 6.0, -9.0);
+        let s = 3.0;
+
+        assert_eq!(Vector::new(1.0, 2.0, -3.0), p / s)
     }
 }

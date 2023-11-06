@@ -43,7 +43,6 @@ impl Tuple for Vector {
     }
 }
 
-
 // -vec
 impl std::ops::Neg for Vector {
     type Output = Vector;
@@ -116,5 +115,79 @@ impl std::ops::Div<f64> for Vector {
 
     fn div(self, rhs: f64) -> Vector {
         self * (1.0 / rhs)
+    }
+}
+
+
+
+
+
+#[cfg(test)]
+mod tests {
+    use crate::primitive::{ vector::Vector, tuple::Tuple };
+    #[test]
+    fn is_vector() {
+        let v = Vector::new(-0.5, 0.4, 1.7);
+        assert!(v.x == -0.5 && v.y == 0.4 && v.z == 1.7);
+    }
+
+    #[test]
+    fn _neg_vector() {
+        let v = Vector::new(3.0, -2.0, 5.0);
+        assert_eq!(Vector::new(-3.0, 2.0, -5.0), -v)
+    }
+
+    #[test]
+    fn _add_vectors() {
+        let v1 = Vector::new(3.0, -2.0, 5.0);
+        let v2 = Vector::new(-2.0, 3.0, 1.0);
+        assert_eq!(Vector::new(1.0, 1.0, 6.0), v1 + v2)
+    }
+
+    #[test]
+    fn _sub_vectors() {
+        let v1 = Vector::new(3.0, -2.0, 5.0);
+        let v2 = Vector::new(-2.0, 3.0, 1.0);
+        assert_eq!(Vector::new(5.0, -5.0, 4.0), v1 - v2)
+    }
+
+    #[test]
+    fn _vec_mul_scalar() {
+        let v = Vector::new(1.0, 2.0, 3.0);
+        let s = 3.0;
+
+        assert_eq!(Vector::new(3.0, 6.0, 9.0), v * s)
+    }
+
+    #[test]
+    fn _scalar_mul_vec() {
+        let v = Vector::new(1.0, 2.0, 3.0);
+        let s = 3.0;
+
+        assert_eq!(Vector::new(3.0, 6.0, 9.0), s * v)
+    }
+
+    #[test]
+    fn _cross_product() {
+        let v1 = Vector::new(-1.0, -2.0, 3.0);
+        let v2 = Vector::new(4.0, 0.0, -8.0);
+
+        assert_eq!(Vector::new(16.0, 4.0, 8.0), v1 * v2)
+    }
+
+    #[test]
+    fn _dot_product() {
+        let v1 = Vector::new(-1.0, -2.0, 3.0);
+        let v2 = Vector::new(4.0, 0.0, -8.0);
+
+        assert_eq!(-28.0, v1 ^ v2)
+    }
+
+    #[test]
+    fn _vec_div_scalar() {
+        let v = Vector::new(3.0, 6.0, -9.0);
+        let s = 3.0;
+
+        assert_eq!(Vector::new(1.0, 2.0, -3.0), v / s)
     }
 }
