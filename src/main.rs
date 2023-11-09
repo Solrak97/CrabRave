@@ -1,10 +1,14 @@
 mod primitive;
 use primitive::{ point::Point, vector::Vector, tuple::Tuple };
-
+mod float_utils;
 mod color;
-use color::*;
+use crate::{color::*, canvas::Canvas};
+mod canvas;
 
-fn main() {
+use std::fs::File;
+use std::io::Write;
+
+fn main() -> std::io::Result<()> {
     let mut projectile: Projectile = Projectile {
         position: Point::new(0.0, 1.0, 0.0),
         velocity: Vector::new(1.0, 1.0, 0.0).normalize()
@@ -21,7 +25,29 @@ fn main() {
         projectile = tick(&env, &projectile);
         println!("{:?}", projectile.position);
     }
-    println!("{:?}", count)
+    println!("{:?}", count);
+
+
+
+
+
+    let mut canv = Canvas::new(10, 10);
+    
+    for x in 0..10 {
+        for y in 0..10 {
+            if x == y {
+                Canvas::write_pixel(&mut canv, x, y, Color::red())
+            }
+        }
+    }
+
+
+    let mut f = File::create("test.ppm")?;
+    f.write_all(Canvas::canvas_to_ppm(&canv).as_bytes())?;
+
+    Ok(())
+
+
 }
 
 struct Projectile {

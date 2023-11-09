@@ -1,6 +1,7 @@
 use crate::primitive::{ tuple::Tuple, vector::Vector };
+use crate::float_utils::floats_equal;
 
-#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialOrd)]
 pub struct Point {
     x: f64,
     y: f64,
@@ -32,6 +33,15 @@ impl Tuple for Point {
         1.0
     }
 }
+
+
+// Custom partial eq
+impl PartialEq for Point {
+    fn eq(&self, rhs: &Self) -> bool {
+        floats_equal(self.x, rhs.x) && floats_equal(self.y, rhs.y) && floats_equal(self.z, rhs.z)
+    }
+}
+
 
 // -Point
 impl std::ops::Neg for Point {

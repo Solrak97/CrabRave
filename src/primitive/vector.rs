@@ -1,6 +1,7 @@
 use crate::primitive::tuple::Tuple;
+use crate::float_utils::floats_equal;
 
-#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialOrd)]
 pub struct Vector {
     x: f64,
     y: f64,
@@ -40,6 +41,13 @@ impl Tuple for Vector {
 
     fn w(&self) -> f64 {
         0.0
+    }
+}
+
+// Custom partial eq
+impl PartialEq for Vector {
+    fn eq(&self, rhs: &Self) -> bool {
+        floats_equal(self.x, rhs.x) && floats_equal(self.y, rhs.y) && floats_equal(self.z, rhs.z)
     }
 }
 
@@ -117,10 +125,6 @@ impl std::ops::Div<f64> for Vector {
         self * (1.0 / rhs)
     }
 }
-
-
-
-
 
 #[cfg(test)]
 mod tests {
