@@ -2,23 +2,23 @@ use crate::color::*;
 
 #[derive(Clone, Debug)]
 pub struct Canvas {
-    pub width: u32,
-    pub height: u32,
+    pub width: i32,
+    pub height: i32,
     canvas: Vec<Color>,
 }
 
 impl Canvas {
-    pub fn new(width: u32, height: u32) -> Self {
+    pub fn new(width: i32, height: i32) -> Self {
         let canvas = vec![Color::black(); (width * height) as usize];
         Canvas { width, height, canvas }
     }
 
-    pub fn write_pixel(cnvs: &mut Canvas, x: u32, y: u32, color: Color) {
+    pub fn write_pixel(cnvs: &mut Canvas, x: i32, y: i32, color: Color) {
         let coord = transform_coords(cnvs, x, y);
         cnvs.canvas[coord] = color;
     }
 
-    pub fn pixel_at(cnvs: &Canvas, x: u32, y: u32) -> Color {
+    pub fn pixel_at(cnvs: &Canvas, x: i32, y: i32) -> Color {
         let coord = transform_coords(cnvs, x, y);
         cnvs.canvas[coord]
     }
@@ -32,9 +32,9 @@ impl Canvas {
 
         for pixel in &canvas.canvas {
             let scaled_pixel = *pixel * (color_scale as f64);
-            let scaled_red = scaled_pixel._red().clamp(0.0, color_scale as f64);
-            let scaled_green = scaled_pixel._green().clamp(0.0, color_scale as f64);
-            let scaled_blue = scaled_pixel._blue().clamp(0.0, color_scale as f64);
+            let scaled_red = scaled_pixel._red().clamp(0.0, color_scale as f64) as i32;
+            let scaled_green = scaled_pixel._green().clamp(0.0, color_scale as f64)  as i32;
+            let scaled_blue = scaled_pixel._blue().clamp(0.0, color_scale as f64)  as i32;
 
             let pix_value = &format!(
                 "{} {} {} ",
@@ -57,7 +57,7 @@ impl Canvas {
     }
 }
 
-fn transform_coords(c: &Canvas, x: u32, y: u32) -> usize {
+fn transform_coords(c: &Canvas, x: i32, y: i32) -> usize {
     (y * c.width + x) as usize
 }
 
